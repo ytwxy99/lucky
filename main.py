@@ -1,5 +1,3 @@
-import time
-
 from utils import upgrade
 from utils import log
 from utils import init
