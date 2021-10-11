@@ -15,8 +15,12 @@ def add_one(record, model, filter_value):
         try:
             SESSION.add(record)
             SESSION.commit()
+            return True
         except sqlalchemy.exc.IntegrityError:
             LOG.error("func add_one(record, model, filter_value) -- add record error, may it is existed, record is : %s" % record)
+            return False
+    else:
+        return True
 
 
 def add_multiple(records):

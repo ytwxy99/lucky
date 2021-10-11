@@ -11,7 +11,8 @@ Base = base.Base
 def main():
     upgrade.upgrade_tushare()
     LOG.info("start lucky process!")
-    init.initAllStock()
+    if init.initAllStock():
+        LOG.info("Init all stocks information successful!")
 
 if __name__ == "__main__":
     main()
