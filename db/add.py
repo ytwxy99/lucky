@@ -1,6 +1,9 @@
+import sqlalchemy
 from db import base
 from db import query
+from utils import log
 
+LOG = log.LOG
 SESSION = base.SESSION
 
 def add_one(record, model, filter_value):
@@ -9,8 +12,11 @@ def add_one(record, model, filter_value):
         we won't add it.
     """
     if not query.query_by_id(model, filter_value):
-        SESSION.add(record)
-        SESSION.commit()
+        try:
+            SESSION.add(record)
+            SESSION.commit()
+        except sqlalchemy.exc.IntegrityError:
+            LOG.error("func add_one(record, model, filter_value) -- add record error, may it is existed, record is : %s" % record)
 
 
 def add_multiple(records):
