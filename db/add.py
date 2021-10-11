@@ -6,6 +6,7 @@ from utils import log
 LOG = log.LOG
 SESSION = base.SESSION
 
+
 def add_one(record, model, filter_value):
     """
         insert one record into specified model, if record is existed,

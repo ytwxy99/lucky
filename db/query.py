@@ -4,6 +4,7 @@ from utils import log
 LOG = log.LOG
 SESSION = base.SESSION
 
+
 def query_by_id(model, value):
     """get records by specfied id"""
     try:
@@ -11,4 +12,13 @@ def query_by_id(model, value):
             return SESSION.query(model).filter_by(stock_id=value).all()
     except:
         LOG.error("func: def query_by_id(model, value) --- get records failed by specified id: %s" % value)
+        return False
+
+
+def get_all(model):
+    """get all records by specified model"""
+    try:
+        return SESSION.query(model).all()
+    except:
+        LOG.error("func: def get_all(model, value) --- get all records failed by specified model: %s" % model)
         return False

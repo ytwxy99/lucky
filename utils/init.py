@@ -1,9 +1,12 @@
+import settings
 from db import add
 from api import stocks
 from db import models
+from db import query
 from utils import log
 
 LOG = log.LOG
+
 
 def initAllStock():
     """init all stock information"""
@@ -18,3 +21,18 @@ def initAllStock():
             return False
 
     return True
+
+
+def initHistoryData():
+    """init all stock history data"""
+    ts_codes = [sk.ts_code for sk in query.get_all(models.Stocks)]
+
+    if len(ts_codes)/100 > int(len(ts_codes)/100):
+        pages = int(len(ts_codes)/100) + 1
+    else:
+        pages = int(len(ts_codes)/100)
+
+    for page in range(pages):
+        query_codes = ts_codes[page*10: page*10 + 10]
+        ts_code_query = ','.join(query_codes)
+        stocks.fetchHistory(ts_code_query, settings.TRADE_START_TIME, settings.TRADE_END_TIME)
