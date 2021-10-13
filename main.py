@@ -1,4 +1,3 @@
-from utils import upgrade
 from utils import log
 from utils import init
 from db import base
@@ -8,11 +7,8 @@ Base = base.Base
 
 
 def main():
-    upgrade.upgrade_tushare()
     LOG.info("start lucky process!")
-    # if init.initAllStock():
-    #     LOG.info("Init all stocks information successful!")
-    init.initHistoryData()
+    init.init_data()
 
 
 if __name__ == "__main__":

@@ -29,10 +29,10 @@ class History(base.Base):
     low = Column(String(10))
     close = Column(String(10))
     pre_close = Column(String(10))
-    change = Column(String(10))
-    pct_chg = Column(String(10))
-    vol = Column(String(20))
-    amount = Column(String(20))
+    change = Column(String(10)) # 涨跌额
+    pct_chg = Column(String(10)) # 涨跌幅（未复权）
+    vol = Column(String(20)) # 成交量
+    amount = Column(String(20)) # 成交额
     turnover_rate = Column(String(20), nullable=True)
     turnover_rate_f = Column(String(20), nullable=True)  # 流通换手率
     volume_ratio = Column(String(20), nullable=True)  # 量比
