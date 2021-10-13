@@ -59,6 +59,7 @@ def initHistoryData():
                                 pct_chg=h[9],
                                 vol=h[10],
                                 amount=h[11])
+
         if not add.add_one(record, models.History, record):
             LOG.error("func initAllStock() -- Init all stock information failed")
             return False
@@ -68,7 +69,9 @@ def initHistoryData():
 def init_data(check_upgrade=False):
     """init all data"""
     upgrade.upgrade_tushare(check_upgrade)
-    # if initAllStock():
-    #     LOG.info("Init all stocks information successful!")
+
+    if initAllStock():
+        LOG.info("Init all stocks information successful!")
+
     if initHistoryData():
         LOG.info("Init all history information successful!")
