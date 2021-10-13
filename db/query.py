@@ -12,7 +12,7 @@ def query_by_id(model, value):
             return SESSION.query(model).filter_by(stock_id=value).all()
         if model.__tablename__ == "history":
             return SESSION.query(model).filter(model.ts_code == value.ts_code,
-                                        model.trade_date == value.trade_date).all()
+                                               model.trade_date == value.trade_date).all()
     except:
         LOG.error("func: def query_by_id(model, value) --- get records failed by specified id: %s" % value)
         return False
