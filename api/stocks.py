@@ -15,3 +15,14 @@ def fetchHistory(ts_code, start_date, end_date):
     """fetch stock history data by specified stock code"""
     history = API.daily(ts_code=ts_code, start_date=start_date, end_date=end_date).to_string().split("\n")
     return history
+
+
+def fetchDetailHistory(ts_code, trade_date):
+    """fetch detail history data by specified stock code"""
+    history = API.daily_basic(ts_code=ts_code, trade_date=trade_date, fields='ts_code,trade_date,turnover_rate,volume_ratio,pe,pb').to_string().split("\n")
+    return history
+
+
+def getTradeCal(start_date, end_date, exchange='SSE'):
+    cal = API.trade_cal(exchange='SSE', start_date=start_date, end_date=end_date)
+    return cal
