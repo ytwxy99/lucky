@@ -11,12 +11,8 @@ var Log = utils.Log
 
 func InitDB() {
 	// init database
-	database, err := db.GetDB()
-	if err != nil {
-		Log.Error("Open database error:", err)
-	}
-	database.AutoMigrate(&db.History{})
-	database.AutoMigrate(&db.Stocks{})
+	db.Database.AutoMigrate(&db.History{})
+	db.Database.AutoMigrate(&db.Stocks{})
 }
 
 func InitDetailHistory() {

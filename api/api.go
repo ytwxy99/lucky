@@ -20,6 +20,8 @@ type SohuHistoryResp []struct {
 
 func FetchHisotry(url string, tsCode string) (SohuHistoryResp, error) {
 	tsCode = strings.Split(tsCode, ".")[0]
+	// TODO(ytwxy99), request support more than one stock to query data, such as:
+	// https://q.stock.sohu.com/hisHq?code=cn_0000053,cn_0000054&start=20211001&end=20211015
 	resp, err := http.Get(fmt.Sprintf("%scode=cn_%s3&start=%s&end=%s", utils.Sohu, tsCode, utils.TradeStartTime, utils.TradeEndTime))
 	defer resp.Body.Close()
 	if err != nil {
@@ -35,7 +37,7 @@ func FetchHisotry(url string, tsCode string) (SohuHistoryResp, error) {
 
 	var history SohuHistoryResp
 	err = json.Unmarshal(body, &history)
-	if err != nil{
+	if err != nil {
 		Log.Error("json Unmarshal error:", err)
 		return SohuHistoryResp{}, err
 	}

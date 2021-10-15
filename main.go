@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/ytwxy99/lucky/utils"
 	initialize "github.com/ytwxy99/lucky/init"
+	"github.com/ytwxy99/lucky/utils"
 )
 
 func main() {
