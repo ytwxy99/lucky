@@ -37,6 +37,7 @@ func FetchHisotry(url string, tsCode string) (SohuHistoryResp, error) {
 	err = json.Unmarshal(body, &history)
 	if err != nil{
 		Log.Error("json Unmarshal error:", err)
+		return SohuHistoryResp{}, err
 	}
 
 	return history, err

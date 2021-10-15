@@ -1,13 +1,23 @@
 package db
 
-import (
-	"gorm.io/gorm"
-)
+type Stocks struct{
+	//gorm.Model
+
+	StockId string `gorm:"primary_key" json:"stock_id"`
+	TsCode string  `json:"ts_code"`
+	Mame string	   `json:"name"`
+	Classify string `json:"classify"`
+	Region string   `json:"region"`
+}
+
+func (s Stocks) TableName() string {
+	return "stocks"
+}
 
 type History struct {
-	gorm.Model
+	//gorm.Model
 
-	TsCode string
+	TsCode string `sql:"index"`
 	TradeDate string
 	Open string
 	High string
@@ -21,4 +31,8 @@ type History struct {
 	TurnoverRate string
 	TurnoverRateF string // 流通换手率
 	VolumeRatio string // 量比
+}
+
+func (h History) TableName() string {
+	return "history"
 }

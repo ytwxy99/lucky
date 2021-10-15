@@ -94,8 +94,8 @@ def init_data(check_upgrade=False):
     """init all data"""
     upgrade.upgrade_tushare(check_upgrade)
 
-    # if initAllStock():
-    #     LOG.info("Init all stocks information successful!")
+    if initAllStock():
+        LOG.info("Init all stocks information successful!")
     #
     # if initHistoryData():
     #     LOG.info("Init all history information successful!")
