@@ -34,6 +34,7 @@ func InitDetailHistory() {
 				if err != nil {
 					db.AddOne(db.History{
 						TradeDate:   strings.Join(strings.Split(hq[0], "-"), ""),
+						TsCode:      stock.TsCode,
 						Open:        hq[1],
 						Close:       hq[2],
 						Change:      hq[3],
@@ -43,7 +44,6 @@ func InitDetailHistory() {
 						Vol:         hq[7],
 						Amount:      hq[8],
 						VolumeRatio: hq[9],
-						TsCode:      stock.TsCode,
 					})
 				}
 			}
