@@ -1,7 +1,6 @@
 package init
 
 import (
-	"fmt"
 	"github.com/ytwxy99/lucky/db"
 	"github.com/ytwxy99/lucky/utils"
 	"github.com/ytwxy99/lucky/api"
