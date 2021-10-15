@@ -15,13 +15,14 @@ func InitDB() {
 	db.Database.AutoMigrate(&db.Stocks{})
 }
 
-func InitDetailHistory() {
+func InitDetailHistory() error {
 	// initialze detail history data.
 	stocks := db.Stocks{}.FetchAll()
 	for _, stock := range stocks {
 		histories, err := api.FetchHisotry(utils.Sohu, stock.TsCode)
 		if err != nil {
 			Log.Error("Init deital history error:", err)
+			return err
 		}
 
 		for _, history := range histories {
@@ -45,4 +46,5 @@ func InitDetailHistory() {
 			}
 		}
 	}
+	return nil
 }
