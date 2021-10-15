@@ -82,23 +82,24 @@ def initDetailHistoryData():
                       volume_ratio=detail[4])
 
         if not update.update(models.History, record):
-            LOG.info("Init all detail history information failed, ts_code is %s, trace_datd is %s" % (detail[1], detail[2]))
+            LOG.error("Init all detail history information failed, ts_code is %s, trace_datd is %s" % (detail[1], detail[2]))
             return False
+        else:
+            LOG.info("update ts_code is %s, trace_datd is %s" % (detail[1], detail[2]))
 
     return True
-
 
 
 def init_data(check_upgrade=False):
     """init all data"""
     upgrade.upgrade_tushare(check_upgrade)
-    initDetailHistoryData()
 
-    if initAllStock():
-        LOG.info("Init all stocks information successful!")
+    # if initAllStock():
+    #     LOG.info("Init all stocks information successful!")
+    #
+    # if initHistoryData():
+    #     LOG.info("Init all history information successful!")
 
-    if initHistoryData():
-        LOG.info("Init all history information successful!")
-
-    if initDetailHistoryData():
-        LOG.info("Init all detail history information successful!")
+    # if initDetailHistoryData():
+    #     LOG.info("Init all detail history information successful!")
+    stocks.fetchHistoryFromPublic(settings.SOHU, "000403.SZ")
