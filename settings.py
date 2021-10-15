@@ -1,4 +1,0 @@
-TOKEN = "9e693ee254b1c86893f09d8ecd9c24086bd56d4398c4cb79a539af10"
-TRADE_START_TIME = "20211013"
-TRADE_END_TIME = "20211014"
-SOHU = "http://q.stock.sohu.com/hisHq?"
