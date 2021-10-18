@@ -21,3 +21,15 @@ func (history History) FetchHistoryByTsCode(tsCode string, tradeDate string) (*H
 	}
 	return &ht, nil
 }
+
+func (stock Stocks) FetchStockByCode(Code string) (*Stocks, error) {
+	var sk Stocks
+	Database.Table("stocks").
+		Where("stock_id = ?", Code).First(&sk)
+
+	if sk.StockId == "" {
+		return &Stocks{}, errors.New("record not found")
+	}
+
+	return &sk, nil
+}

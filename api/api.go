@@ -2,10 +2,10 @@ package api
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strings"
 
 	"github.com/ytwxy99/lucky/utils"
 )
@@ -18,16 +18,18 @@ type SohuHistoryResp []struct {
 	Status int64      `json:"status"`
 }
 
-func FetchHisotry(url string, tsCode string) (SohuHistoryResp, error) {
-	tsCode = strings.Split(tsCode, ".")[0]
-	// TODO(ytwxy99), request support more than one stock to query data, such as:
-	// https://q.stock.sohu.com/hisHq?code=cn_0000053,cn_0000054&start=20211001&end=20211015
-	resp, err := http.Get(fmt.Sprintf("%scode=cn_%s&start=%s&end=%s", utils.Sohu, tsCode, utils.TradeStartTime, utils.TradeEndTime))
-	defer resp.Body.Close()
+func FetchHisotry(tsCodes string) (SohuHistoryResp, error) {
+	url := fmt.Sprintf("%scode=%s&start=%s&end=%s", utils.Sohu, tsCodes, utils.TradeStartTime, utils.TradeEndTime)
+	resp, err := http.Get(url)
 	if err != nil {
 		Log.Error("Do http request error:", err, ", url :", url)
 		return SohuHistoryResp{}, err
 	}
+	if resp == nil {
+		Log.Error("response return is nil: ", url)
+		return SohuHistoryResp{}, errors.New("response nil")
+	}
+	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -42,5 +44,5 @@ func FetchHisotry(url string, tsCode string) (SohuHistoryResp, error) {
 		return SohuHistoryResp{}, err
 	}
 
-	return history, err
+	return history, nil
 }

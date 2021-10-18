@@ -1,10 +1,11 @@
 package init
 
 import (
+	"strings"
+
 	"github.com/ytwxy99/lucky/api"
 	"github.com/ytwxy99/lucky/db"
 	"github.com/ytwxy99/lucky/utils"
-	"strings"
 )
 
 var Log = utils.Log
@@ -18,16 +19,20 @@ func InitDB() {
 func InitDetailHistory() error {
 	// initialze detail history data.
 	stocks := db.Stocks{}.FetchAll()
-	for _, stock := range stocks {
-		histories, err := api.FetchHisotry(utils.Sohu, stock.TsCode)
+	for _, stockSplit := range transTsCodes(stocks) {
+		histories, err := api.FetchHisotry(stockSplit)
 		if err != nil {
-			Log.Error("Init deital history error:", err)
+			Log.Error("Get history date from public source error:", err, histories)
 			return err
 		}
 
 		for _, history := range histories {
 			for _, hq := range history.Hq {
-				_, err := db.History{}.FetchHistoryByTsCode(stock.TsCode, strings.Join(strings.Split(hq[0], "-"), ""))
+				stock, err := db.Stocks{}.FetchStockByCode(strings.Split(history.Code, "_")[1])
+				if err != nil {
+					Log.Error("Get stock recode error:", err, history.Code)
+				}
+				_, err = db.History{}.FetchHistoryByTsCode(stock.TsCode, strings.Join(strings.Split(hq[0], "-"), ""))
 				if err != nil {
 					db.AddOne(db.History{
 						TradeDate:   strings.Join(strings.Split(hq[0], "-"), ""),
@@ -47,4 +52,25 @@ func InitDetailHistory() error {
 		}
 	}
 	return nil
+}
+
+func transTsCodes(stocks []db.Stocks) []string {
+	totalLen := len(stocks)
+	page := totalLen / utils.PageSize
+	tsCodes := make([]string, page, page)
+
+	for i := 0; i < page; i++ {
+		tsCodesSplit := ""
+		stockSplit := stocks[i*utils.PageSize : (i+1)*utils.PageSize]
+		for index, stock := range stockSplit {
+			if len(stockSplit) == (index + 1) {
+				tsCodesSplit = tsCodesSplit + "cn_" + strings.Split(stock.TsCode, ".")[0]
+			} else {
+				tsCodesSplit = tsCodesSplit + "cn_" + strings.Split(stock.TsCode, ".")[0] + ","
+			}
+		}
+		tsCodes[i] = tsCodesSplit
+	}
+
+	return tsCodes
 }
