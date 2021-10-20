@@ -17,8 +17,8 @@ func (s Stocks) TableName() string {
 type History struct {
 	//gorm.Model
 
-	TsCode        string `sql:"index"`
-	TradeDate     string
+	TsCode        string `gorm:"primary_key`
+	TradeDate     string `gorm:"primary_key`
 	Open          string
 	High          string
 	Low           string

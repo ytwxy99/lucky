@@ -19,6 +19,7 @@ func InitDB() {
 func InitDetailHistory() error {
 	// initialze detail history data.
 	stocks := db.Stocks{}.FetchAll()
+	db.Database.Begin()
 	for _, stockSplit := range transTsCodes(stocks) {
 		histories, err := api.FetchHisotry(stockSplit)
 		if err != nil {
@@ -51,6 +52,7 @@ func InitDetailHistory() error {
 			}
 		}
 	}
+	db.Database.Commit()
 	return nil
 }
 
