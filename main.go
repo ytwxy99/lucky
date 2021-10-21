@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/ytwxy99/lucky/crawls"
 	initialize "github.com/ytwxy99/lucky/init"
 	"github.com/ytwxy99/lucky/utils"
 )
@@ -14,4 +15,7 @@ func main() {
 	if err != nil {
 		LOG.Error("initialize detail history data err:", err)
 	}
+
+	// do crawl websites
+	crawls.DoCrawls()
 }
