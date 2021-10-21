@@ -13,10 +13,10 @@ var Log = utils.Log
 
 type BaiduAladdin struct {
 	UrlPrefix string
-	UrlSuffix	string
+	UrlSuffix string
 }
 
-func (ba *BaiduAladdin)Crawls(stocks []db.Stocks) {
+func (ba *BaiduAladdin) Crawls(stocks []db.Stocks) {
 	for index, stock := range stocks {
 		code := strings.Split(stock.TsCode, ".")
 		crawlUrl := ba.UrlPrefix + code[1] + code[0] + ba.UrlSuffix
@@ -38,7 +38,7 @@ func (ba *BaiduAladdin)Crawls(stocks []db.Stocks) {
 
 			// Start scraping
 			err := c.Visit(crawlUrl)
-			if err != nil{
+			if err != nil {
 				Log.Error("crawl page failed: ", crawlUrl)
 			}
 
